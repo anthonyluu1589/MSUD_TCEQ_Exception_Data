@@ -23,6 +23,7 @@ for i in range(1,len(results)):
     #routes , LUEs, install month
     data.append([results[i][0][0:3],float(results[i][1]),int(results[i][2])])
 
+#PP1 routes
 routes = ['001','002','003','004','005','006','008','010','011','012','013','015','016','017','018','019','021','023','024','025','026','027','028','030','031','032','034','035','036','037','038','039','040','041','042','043','045','051','053','055','057','116']
 
 sum_data = []
@@ -39,14 +40,43 @@ for i5 in range(0,len(sum_data)):
     
 fields = results[0]
 
-with open('totalLUE_by_month_and_route_results.csv', 'w') as f:
+# totals to CSV
+# with open('totalLUE_by_month_and_route_results_PP1.csv', 'w') as f:
+     
+#     # using csv.writer method from CSV package
+#     write = csv.writer(f)
+     
+#     write.writerow(fields)
+#     write.writerows(sum_data)
+
+# find all route codes and sort them    
+allroutes = set()
+for i in range(len(data)):
+    allroutes.add(data[i][0])
+allroutes_sorted = list(allroutes)
+allroutes_sorted.sort()    
+
+sum_data_CCN = []
+for i6 in range(613,649):
+    for i7 in range(0,len(allroutes_sorted)):
+        sum_data_CCN.append([i6,allroutes_sorted[i7]])
+        
+for i8 in range(0,len(sum_data_CCN)):
+    tot_all=0
+    for i9 in range(0,len(data)):
+        if data[i9][0]==sum_data_CCN[i8][1] and data[i9][2]<=sum_data_CCN[i8][0]:
+            tot_all = tot_all + data[i9][1]
+    sum_data_CCN[i8].append(tot_all)
+    
+
+# totals to CSV
+with open('totalLUE_by_month_and_route_results_CCN.csv', 'w') as f:
      
     # using csv.writer method from CSV package
-    write = csv.writer(f)
+    write_all = csv.writer(f)
      
-    write.writerow(fields)
-    write.writerows(sum_data)
-        
+    write_all.writerow(fields)
+    write_all.writerows(sum_data_CCN)    
 
     
 
